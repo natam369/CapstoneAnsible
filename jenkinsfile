@@ -6,17 +6,17 @@ node {
    git 'https://github.com/natam369/CapstoneAnsible.git'
   }
 	stage('Download package from JFrog') {
-            def server= Artifactory.server 'Artifactory'
-            def downloadSpec = """{
+			def server= Artifactory.server 'Artifactory'
+			def downloadSpec = """{
             "files": [
             {
-                "pattern": "hotelmanagement/hotelmanagement-version-1.war",
-                "target": "./hotelmanagement.war"
+                "pattern": "project/bikeshop-0.0.1-SNAPSHOT.war",
+                "target": "./capstoneproject.war"
             }
             ]
             }"""
-        server.download(downloadSpec)
-    }
+			server.download(downloadSpec)
+		}
     
     stage('Deployment into production'){
  	 sh label: 'terraform', script: 'ansible-playbook -i /root/.jenkins/workspace/CapstoneTerraform/inventory -u ubuntu --key /root/.ssh/bikee.pem ./web-playbook.yaml'
